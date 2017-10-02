@@ -28,16 +28,18 @@ var markSquare = function(squareClicked){
 		player1Squares.push(squareClicked.id);
 		console.log(player1Squares)
 		document.getElementById('message').innerHTML = ""
+		checkWin(player1Squares,1);
 	}else{
 		squareClicked.innerHTML = 'O';
 		whosTurn = 1;
 		player2Squares.push(squareClicked.id);
 		document.getElementById('message').innerHTML = ""
+		checkWin(player2Squares,2);
 	}
-	checkWin();
+	// checkWin();
 }
 
-function checkWin(){
+function checkWin(currentPlayerSquares,whoJustMarked){
 	// if(squares[0].innerHTML === 'X') and (squares[1].innerHTML === 'X') and (squares[2].innerHTML === 'X'){
 	// 	win.		
 	// }
@@ -46,9 +48,9 @@ function checkWin(){
 		// Keep track of how many of THIS winning combo the player has
 		var squareCount = 0;
 		// INNER LOOP - check a square inside a winning comnbination
-		for(let j = 0; j < winningCombos[i].length){
+		for(let j = 0; j < winningCombos[i].length; j++){
 			var winningSquare = winningCombos[i][j]
-			if(player1Squares.indexOf(winningSquare) !== -1){
+			if(currentPlayerSquares.indexOf(winningSquare) !== -1){
 				// THE Square belongs to the player. We do not care where.
 				squareCount++;
 			}
@@ -56,7 +58,8 @@ function checkWin(){
 		// check to see if the squareCount === 3
 		if(squareCount === 3){
 			// WINNER WINNER CHICKEN DINNER
-			console.log("Player1 won the game");
+			console.log(`Player ${whoJustMarked} won the game`);
+			document.getElementById('message').innerHTML = `Congrats to player ${whoJustMarked}!`
 		}
 	}
 

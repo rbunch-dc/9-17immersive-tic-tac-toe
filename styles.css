@@ -29,3 +29,8 @@ h1{
 .square:hover{
 	background-color: #ff0;
 }
+
+#message{
+	font-size: 40px;
+	min-height: 80px;
+}
