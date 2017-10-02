@@ -12,7 +12,8 @@ var winningCombos = [
 	['C1','C2','C3'], //COLUMN 3
 	['A1','B2','C3'], //DIAG 1
 	['A3','B2','C1'] //DIAG 2
-]
+];
+var gameOver = false;
 
 // Two things happen when someone clicks.
 // 1. We change the DOM (for the user).
@@ -60,6 +61,7 @@ function checkWin(currentPlayerSquares,whoJustMarked){
 			// WINNER WINNER CHICKEN DINNER
 			console.log(`Player ${whoJustMarked} won the game`);
 			document.getElementById('message').innerHTML = `Congrats to player ${whoJustMarked}!`
+			gameOver = true;
 		}
 	}
 
@@ -73,6 +75,9 @@ function checkWin(currentPlayerSquares,whoJustMarked){
 // 4. 3 means we need to keep track of who's turn it is.
 // When X goes, it becomes O's turn, when O goes it becomes X's turn.
 // 5. Check to see if someone won the game. If so, congratulate them, otherwise do nothing.
+
+// 6. Highlight the winning sqaures
+// 7. Game must stop if someone won (i.e., can't keep clicking)
 
 // squares is an array with 9 objects. Each object is the JS representation of the HTML tag.
 var squares = document.getElementsByClassName('square');
@@ -91,6 +96,10 @@ for (let i = 0; i < squares.length; i++){
 	squares[i].addEventListener('click', function(event){
 		// console.log(this);
 		// call the markSquare funciton and pass the square user clicked on.
-		markSquare(this);
+		// Only call markSquare if gameOver === false
+		// in JS, ! = not, !gameOver means not gameOver, or gameOver == false
+		if(!gameOver){
+			markSquare(this);
+		}
 	});
 }
