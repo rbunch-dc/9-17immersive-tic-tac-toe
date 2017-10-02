@@ -34,3 +34,8 @@ h1{
 	font-size: 40px;
 	min-height: 80px;
 }
+
+.winning-square{
+	background-color: red !important;
+	color: green;
+}

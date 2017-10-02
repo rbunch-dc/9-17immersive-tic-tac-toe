@@ -28,8 +28,10 @@ var markSquare = function(squareClicked){
 		whosTurn = 2;
 		player1Squares.push(squareClicked.id);
 		console.log(player1Squares)
-		document.getElementById('message').innerHTML = ""
-		checkWin(player1Squares,1);
+		document.getElementById('message').innerHTML = "It's O's turn"
+		if(player1Squares.length >= 3){
+			checkWin(player1Squares,1);
+		}
 	}else{
 		squareClicked.innerHTML = 'O';
 		whosTurn = 1;
@@ -38,6 +40,23 @@ var markSquare = function(squareClicked){
 		checkWin(player2Squares,2);
 	}
 	// checkWin();
+}
+
+function computerMove(){
+	// find a random square
+	// see if that square is empty
+	// if it is, send it to square
+	// if it's not, keep looking
+	var sqaureFound = false;
+	while(!sqaureFound){
+		rand = Math.floor(Math.random() * 9);
+		console.log(takenSquares)
+		if(takenSquares.indexOf(squares[rand].id) == -1){
+			// square not taken. Take it.
+			sqaureFound = true;
+		}
+	}
+	markSquare(squares[rand]);
 }
 
 function checkWin(currentPlayerSquares,whoJustMarked){
@@ -58,13 +77,24 @@ function checkWin(currentPlayerSquares,whoJustMarked){
 		} //end of j loop (row/diag/column complete)
 		// check to see if the squareCount === 3
 		if(squareCount === 3){
-			// WINNER WINNER CHICKEN DINNER
-			console.log(`Player ${whoJustMarked} won the game`);
-			document.getElementById('message').innerHTML = `Congrats to player ${whoJustMarked}!`
-			gameOver = true;
+			// move stuff to a function
+			endGame(winningCombos[i], whoJustMarked);
+			break;
 		}
 	}
+}
 
+function endGame(winningCombo,whoJustMarked){
+	// WINNER WINNER CHICKEN DINNER
+	console.log(`Player ${whoJustMarked} won the game`);
+	document.getElementById('message').innerHTML = `Congrats to player ${whoJustMarked}!`
+	gameOver = true;
+	// Loop through the winning combo, and add a class.	
+	for(let i = 0; i < winningCombo.length; i++){
+		var theSquare = document.getElementById(winningCombo[i])
+		console.dir(theSquare);
+		theSquare.className += ' winning-square';
+	}
 }
 
 // console.log("Sanity check...")
@@ -103,3 +133,15 @@ for (let i = 0; i < squares.length; i++){
 		}
 	});
 }
+
+
+// function someoneClicked(event){
+// 		// console.log(this);
+// 		// call the markSquare funciton and pass the square user clicked on.
+// 		// Only call markSquare if gameOver === false
+// 		// in JS, ! = not, !gameOver means not gameOver, or gameOver == false
+// 		if(!gameOver){
+// 			markSquare(this);
+// 		}
+// 	}
+
