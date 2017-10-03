@@ -12,6 +12,7 @@ h1{
 	min-width: 320px;
 	float: none; /* Override bootstrap */
 	margin: auto;
+	margin-bottom:  20px;
 }
 
 .square{

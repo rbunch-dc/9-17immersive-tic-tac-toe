@@ -14,6 +14,10 @@ var winningCombos = [
 	['A3','B2','C1'] //DIAG 2
 ];
 var gameOver = false;
+var scores = [
+	0,
+	0
+]
 
 // Two things happen when someone clicks.
 // 1. We change the DOM (for the user).
@@ -36,8 +40,10 @@ var markSquare = function(squareClicked){
 		squareClicked.innerHTML = 'O';
 		whosTurn = 1;
 		player2Squares.push(squareClicked.id);
-		document.getElementById('message').innerHTML = ""
-		checkWin(player2Squares,2);
+		document.getElementById('message').innerHTML = "It's X's turn"
+		if(player2Squares.length >= 3){
+			checkWin(player2Squares,2);
+		}		
 	}
 	// checkWin();
 }
@@ -70,7 +76,7 @@ function checkWin(currentPlayerSquares,whoJustMarked){
 		// INNER LOOP - check a square inside a winning comnbination
 		for(let j = 0; j < winningCombos[i].length; j++){
 			var winningSquare = winningCombos[i][j]
-			if(currentPlayerSquares.indexOf(winningSquare) !== -1){
+			if(currentPlayerSquares.indexOf(winningSquare) >= 0 ){
 				// THE Square belongs to the player. We do not care where.
 				squareCount++;
 			}
@@ -95,6 +101,27 @@ function endGame(winningCombo,whoJustMarked){
 		console.dir(theSquare);
 		theSquare.className += ' winning-square';
 	}
+	document.getElementById('reset-button').innerHTML = '<button id="reset" class="btn btn-lg btn-success">Reset Game</button>';
+	var resetButton = document.getElementById('reset');
+	resetButton.addEventListener('click', reset);
+}
+
+function reset(){
+	// console.log("I made a new button called rset. And the user just clicked on it.")
+	// In order to reset the game...
+	// 1. Clear/reset out all arrays.
+	player1Squares = [];
+	player2Squares = [];
+	// 2. Reset the DOM to it's former glory.
+	for(let i = 0; i < squares.length; i++){
+		squares[i].innerHTML = '-';
+		squares[i].className = 'square';
+	}
+	// 3. Reset the gameOver bool
+	gameOver = false;
+	// 4. Reset any counters.
+	// 5. Winning class needs to be wiped
+
 }
 
 // console.log("Sanity check...")
@@ -108,6 +135,9 @@ function endGame(winningCombo,whoJustMarked){
 
 // 6. Highlight the winning sqaures
 // 7. Game must stop if someone won (i.e., can't keep clicking)
+
+// var test = document.getElementsByTagName('button');
+// console.log(test);
 
 // squares is an array with 9 objects. Each object is the JS representation of the HTML tag.
 var squares = document.getElementsByClassName('square');
