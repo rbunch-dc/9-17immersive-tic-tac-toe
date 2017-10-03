@@ -44,6 +44,9 @@ var markSquare = function(squareClicked){
 		if(player1Squares.length >= 3){
 			checkWin(player1Squares,1);
 		}
+		if((numPlayers == 1) && (!gameOver)){
+			computerMove();
+		}
 	}else{
 		squareClicked.innerHTML = player2Img;  //'O';
 		whosTurn = 1;
@@ -64,11 +67,16 @@ function computerMove(){
 	var sqaureFound = false;
 	while(!sqaureFound){
 		rand = Math.floor(Math.random() * 9);
-		console.log(takenSquares)
-		if(takenSquares.indexOf(squares[rand].id) == -1){
-			// square not taken. Take it.
+		var isTaken = squares[rand].innerHTML;
+		if(isTaken === '-'){
 			sqaureFound = true;
 		}
+
+		// console.log(takenSquares)
+		// if(takenSquares.indexOf(squares[rand].id) == -1){
+		// 	// square not taken. Take it.
+		// 	sqaureFound = true;
+		// }
 	}
 	markSquare(squares[rand]);
 }
@@ -102,8 +110,10 @@ function endGame(winningCombo,whoJustMarked){
 	// WINNER WINNER CHICKEN DINNER
 	if(whoJustMarked === 1){
 		var nameToShow = name;
+		scores[0]++;
 	}else{
 		var nameToShow = 'Player 2';
+		scores[1]++;
 	}
 	console.log(`${nameToShow} won the game`);
 	document.getElementById('message').innerHTML = `Congrats to ${nameToShow}!`
@@ -117,6 +127,9 @@ function endGame(winningCombo,whoJustMarked){
 	document.getElementById('reset-button').innerHTML = '<button id="reset" class="btn btn-lg btn-success">Reset Game</button>';
 	var resetButton = document.getElementById('reset');
 	resetButton.addEventListener('click', reset);
+	// The game is over. The scores have been updated. Now update the DOM with the new score
+	document.getElementsByClassName('player1-score')[0].innerHTML = scores[0];
+	document.getElementsByClassName('player2-score')[0].innerHTML = scores[1];
 }
 
 function reset(){
@@ -200,6 +213,7 @@ document.getElementById('two-player').addEventListener('click', function(event){
 	}	
 });
 
+// computerMove();
 
 
 // function someoneClicked(event){

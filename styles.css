@@ -14,7 +14,7 @@ h1{
 #board{
 	max-width: 640px;
 	min-width: 320px;
-	float: none; /* Override bootstrap */
+	/* float: none; Override bootstrap */
 	margin: auto;
 	margin-bottom:  20px;
 }
